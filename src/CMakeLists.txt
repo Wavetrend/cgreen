@@ -3,6 +3,12 @@
 find_program(GIT_SCM git DOC "Git version control")
 mark_as_advanced(GIT_SCM)
 find_file(GITDIR NAMES .git PATHS ${CMAKE_SOURCE_DIR} NO_DEFAULT_PATH)
+execute_process(
+    COMMAND git rev-parse --sq --absolute-git-dir
+    OUTPUT_VARIABLE GITDIR
+    WORKING_DIRECTORY "${CMAKE_PROJECT_DIR}"
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 if (GIT_SCM AND GITDIR)
   # Create gitrevision.h
   # that depends on the Git HEAD log
